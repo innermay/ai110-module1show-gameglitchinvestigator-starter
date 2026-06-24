@@ -25,19 +25,26 @@ It wrote the code, ran away, and now the game is unplayable.
 
 ## 📝 Document Your Experience
 
-- [ ] Describe the game's purpose.
-- [ ] Detail which bugs you found.
-- [ ] Explain what fixes you applied.
+During the glitch hunt, I found several bugs in the game logic:
+The hint messages were backwards. A guess that was too high told the player to go higher, and a guess that was too low told the player to go lower.
+The attempt counter started at 1 instead of 0, so the player lost an attempt before making a first guess.
+The game sometimes converted the secret number into a string on even attempts, which caused wrong comparisons and could stop a correct guess from winning.
+The New Game button ignored the selected difficulty range and could choose a secret from 1 to 100 even on Easy mode.
+The score logic rewarded a wrong “Too High” guess on even attempts instead of subtracting points.
+I repaired these bugs one at a time, tested each fix manually, and then added pytest tests to verify the core game logic.
 
 ## 📸 Demo Walkthrough
 
 Describe your fixed game in numbered steps so a reader can follow along without watching a video:
 
-1. <!-- Describe this step -->
-2. <!-- Describe this step -->
-3. <!-- Describe this step -->
-4. <!-- Describe this step -->
-5. <!-- Add more steps as needed -->
+1. Start the app using python -m streamlit run app.py.
+2. Choose a difficulty from the sidebar, such as Easy, Normal, or Hard.
+3. Open the Developer Debug Info section to view the secret number while testing.
+4. Enter a guess lower than the secret number and confirm the game says to go higher.
+5. Enter a guess higher than the secret number and confirm the game says to go lower.
+6. Enter the correct secret number and confirm the game shows the win message.
+7. Click New Game and confirm the new secret number stays inside the selected difficulty range.
+8. Run the pytest tests to show that the repaired game logic passes automatically.
 
 **Screenshot** *(optional)*: <!-- Insert a screenshot of your fixed, winning game here -->
 
@@ -48,6 +55,12 @@ Describe your fixed game in numbered steps so a reader can follow along without 
 # pytest tests/
 # ========================= X passed in 0.XXs =========================
 ```
+
+...............                                                          [100%]
+python3 -m pytest tests/ -q
+
+15 passed in 0.30s
+
 
 ## 🚀 Stretch Features
 
